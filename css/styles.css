@@ -1,0 +1,17 @@
+body {
+    background-color: #e0ffff;
+}
+
+header {
+    background-color: #e0ffff;
+}
+
+.index-header {
+    font-family: 'Avantgarde', 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
+    color: rgb(9, 9, 110) ;
+}
+
+.pokemon-list {
+    list-style-type: disc;
+    font-family: 'Avantgarde', 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
+}

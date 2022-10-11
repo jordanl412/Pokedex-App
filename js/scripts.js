@@ -4,12 +4,13 @@ let pokemonList = [
     {name: 'Seel', height: 1.1, types: ['water']},
     {name: 'Squirtle', height: 0.5, types: ['water']}
 ];
+let editedPokemonList = '<ul class="pokemon-list">';
 
 for (let i=0; i<pokemonList.length; i++) {
-    if (i<pokemonList.length) {
-        document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')')
+    if (pokemonList[i].height>1) {
+        editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ') - Wow, that\'s big!<br>' + '</li>')
     }
     else {
-        document.write('You have run out of Pokemon in your list!')
+        editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')<br>' + '</li>')
     }
 }
