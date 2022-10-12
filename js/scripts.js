@@ -8,14 +8,17 @@ let editedPokemonList = '<ul class="pokemon-list">';
 
 document.write(editedPokemonList);
 
-for (let i=0; i<pokemonList.length; i++) {
-    if (pokemonList[i].height>1) {
-        editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ') - Wow, that\'s big!<br>' + '</li>')
+pokemonList.forEach(function(pokemon) {
+    if (pokemon.height>1) {
+        editedPokemonList += '<li>' + document.write(pokemon.name + 
+        ' (height: ' + pokemon.height + ') - Wow, that\'s big!<br>' + '</li>');
     }
     else {
-        editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')<br>' + '</li>')
+        editedPokemonList += '<li>' + document.write(pokemon.name + 
+        ' (height: ' + pokemon.height + ')<br>' + '</li>');
     }
-}
-
+})
 editedPokemonList += '</ul';
+
+
 
