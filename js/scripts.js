@@ -1,3 +1,5 @@
+
+//Creates an IIFE//
 let pokemonRepository = (function () {
     let pokemonList = [
     {name: 'Bulbasaur', height: 0.7, types: ['grass', 'poison']},
@@ -10,8 +12,19 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
+    //validates that the added Pokemon is an object and has matching keys//
     function add(pokemon) {
-        pokemonList.push(pokemon);
+        if (typeof pokemon === 'object') {
+            if (Object.keys(pokemonList[0]).every(key => key in pokemon)) {
+            pokemonList.push(pokemon);
+            }
+            else {
+                pokemonList.push(document.write('Pokemon must have "name", "height", and "types" keys.'))
+            }
+        }
+        else {
+        pokemonList.push(document.write('Can only add objects to pokemonList!'));
+        }
     }
 
     return {
@@ -23,6 +36,19 @@ let pokemonRepository = (function () {
 let editedPokemonList = '<ul class="pokemon-list">';
 
 document.write(editedPokemonList);
+
+/* 
+//checks if key validation works
+pokemonRepository.add({
+    name: 'hello',
+    height: 4,
+})
+*/
+
+/*
+//checks if typeof validation works
+pokemonRepository.add(4)
+*/
 
 pokemonRepository.add({
     name: 'Mr. Mime',
