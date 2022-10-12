@@ -6,6 +6,8 @@ let pokemonList = [
 ];
 let editedPokemonList = '<ul class="pokemon-list">';
 
+document.write(editedPokemonList);
+
 for (let i=0; i<pokemonList.length; i++) {
     if (pokemonList[i].height>1) {
         editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ') - Wow, that\'s big!<br>' + '</li>')
@@ -14,3 +16,6 @@ for (let i=0; i<pokemonList.length; i++) {
         editedPokemonList += '<li>' + document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')<br>' + '</li>')
     }
 }
+
+editedPokemonList += '</ul';
+
