@@ -1,5 +1,5 @@
 
-//Creates an IIFE//
+//Creates an IIFE
 let pokemonRepository = (function () {
     let pokemonList = [
     {name: 'Bulbasaur', height: 0.7, types: ['grass', 'poison']},
@@ -12,24 +12,30 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
-    //validates that the added Pokemon is an object and has matching keys//
+    //validates that the added Pokemon is an object and has matching keys
     function add(pokemon) {
         if (typeof pokemon === 'object') {
             if (Object.keys(pokemonList[0]).every(key => key in pokemon)) {
             pokemonList.push(pokemon);
             }
             else {
-                pokemonList.push(document.write('Pokemon must have "name", "height", and "types" keys.'))
+                console.log('keys must be "name", "height", "types"');
             }
         }
         else {
-        pokemonList.push(document.write('Can only add objects to pokemonList!'));
+            console.log('must be an object');
         }
+    }
+
+    //Bonus task to add filter() function, maybe wrong
+    function findPokemonName(pokemon) {
+        return pokemonList.filter(pokemonList => pokemonList.name === pokemon);
     }
 
     return {
         getAll: getAll,
-        add: add
+        add: add,
+        findPokemonName: findPokemonName
     };
 })();
 
@@ -37,25 +43,23 @@ let editedPokemonList = '<ul class="pokemon-list">';
 
 document.write(editedPokemonList);
 
-/* 
-//checks if key validation works
+//checks if key validation works (should not work)
 pokemonRepository.add({
     name: 'hello',
     height: 4,
-})
-*/
+});
 
-/*
-//checks if typeof validation works
-pokemonRepository.add(4)
-*/
+//checks if typeof validation works (should not work)
+pokemonRepository.add(4);
 
+//another key and typeof validation check, (this one be added successfully)
 pokemonRepository.add({
     name: 'Mr. Mime',
     height: 1.3,
     types: ['psychic', 'fairy']
-})
+});
 
+//Adds "Wow, that's big!" if height over 1
 pokemonRepository.getAll().forEach(function(pokemon) {
     if (pokemon.height>1) {
         editedPokemonList += '<li>' + document.write(pokemon.name + 
@@ -65,7 +69,11 @@ pokemonRepository.getAll().forEach(function(pokemon) {
         editedPokemonList += '<li>' + document.write(pokemon.name + 
         ' (height: ' + pokemon.height + ')<br>' + '</li>');
     }
-})
+});
+
+//Supposed to test filter() function
+pokemonRepository.findPokemonName('Bulbasaur');
+
 editedPokemonList += '</ul>';
 
 
