@@ -12,6 +12,24 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
+    //shows details of selected pokemon in console
+    function showDetails(pokemon) {
+        console.log(pokemon);
+    }
+
+    //each added pokemon is added as a list item with a button
+    function addListItem(pokemon) {
+        let pokemonListContainer = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let pokemonButton = document.createElement('button');
+        pokemonButton.innerText = pokemon.name;
+        pokemonButton.classList.add('pokemon-button');
+        listItem.appendChild(pokemonButton);
+        pokemonListContainer.appendChild(listItem);
+        //calls showDetails function when button is clicked
+        pokemonButton.addEventListener('click', showDetails(pokemon));
+    }
+
     //validates that the added Pokemon is an object and has matching keys
     function add(pokemon) {
         if (typeof pokemon === 'object') {
@@ -35,7 +53,9 @@ let pokemonRepository = (function () {
     return {
         getAll: getAll,
         add: add,
-        findPokemonName: findPokemonName
+        findPokemonName: findPokemonName,
+        addListItem: addListItem,
+        showDetails: showDetails
     };
 })();
 
@@ -55,27 +75,8 @@ pokemonRepository.add({
     types: ['psychic', 'fairy']
 });
 
-//Adds "Wow, that's big!" if height over 1
-pokemonRepository.getAll().forEach(function(pokemon) {
-    let pokemonListContainer = document.querySelector('.pokemon-list');
-    let listItem = document.createElement('li');
-    let button = document.createElement('button');
-    button.innerText = pokemon.name;
-    button.classList.add('pokemon-button');
-    listItem.appendChild(button);
-    pokemonListContainer.appendChild(listItem);
-
-    /*
-    if (pokemon.height>1) {
-        editedPokemonList += '<li>' + document.write(pokemon.name + 
-        ' (height: ' + pokemon.height + ') - Wow, that\'s big!<br>' + '</li>');
-    }
-    else {
-        editedPokemonList += '<li>' + document.write(pokemon.name + 
-        ' (height: ' + pokemon.height + ')<br>' + '</li>');
-    }
-    */
-});
+//Adds list item (with button) for each pokemon in pokemonList
+pokemonRepository.getAll().forEach(pokemonRepository.addListItem);
 
 //Tests filter() function
 let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
