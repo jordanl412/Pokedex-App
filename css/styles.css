@@ -15,3 +15,10 @@ header {
     list-style-type: disc;
     font-family: 'Avantgarde', 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
 }
+
+button.pokemon-button {
+    background-color:rgb(163, 81, 112);
+    border-radius: 8px;
+    border: 2px solid black;
+    font-size: 16px;
+}

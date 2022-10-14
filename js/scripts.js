@@ -39,10 +39,6 @@ let pokemonRepository = (function () {
     };
 })();
 
-let editedPokemonList = '<ul class="pokemon-list">';
-
-document.write(editedPokemonList);
-
 //checks if key validation works (should not work)
 pokemonRepository.add({
     name: 'hello',
@@ -61,6 +57,15 @@ pokemonRepository.add({
 
 //Adds "Wow, that's big!" if height over 1
 pokemonRepository.getAll().forEach(function(pokemon) {
+    let pokemonListContainer = document.querySelector('.pokemon-list');
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = pokemon.name;
+    button.classList.add('pokemon-button');
+    listItem.appendChild(button);
+    pokemonListContainer.appendChild(listItem);
+
+    /*
     if (pokemon.height>1) {
         editedPokemonList += '<li>' + document.write(pokemon.name + 
         ' (height: ' + pokemon.height + ') - Wow, that\'s big!<br>' + '</li>');
@@ -69,6 +74,7 @@ pokemonRepository.getAll().forEach(function(pokemon) {
         editedPokemonList += '<li>' + document.write(pokemon.name + 
         ' (height: ' + pokemon.height + ')<br>' + '</li>');
     }
+    */
 });
 
 //Tests filter() function
