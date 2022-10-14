@@ -27,9 +27,9 @@ let pokemonRepository = (function () {
         }
     }
 
-    //Bonus task to add filter() function, maybe wrong
-    function findPokemonName(pokemon) {
-        return pokemonList.filter(pokemonList => pokemonList.name === pokemon);
+    //Bonus task to add filter(name) function
+    function findPokemonName(pokemonName) {
+        return pokemonList.filter(pokemon => pokemon.name === pokemonName);
     }
 
     return {
@@ -71,8 +71,9 @@ pokemonRepository.getAll().forEach(function(pokemon) {
     }
 });
 
-//Supposed to test filter() function
-pokemonRepository.findPokemonName('Bulbasaur');
+//Tests filter() function
+let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
+console.log(filteredPokemon);
 
 editedPokemonList += '</ul>';
 
