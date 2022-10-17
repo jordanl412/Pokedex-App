@@ -27,7 +27,9 @@ let pokemonRepository = (function () {
         listItem.appendChild(pokemonButton);
         pokemonListContainer.appendChild(listItem);
         //calls showDetails function when button is clicked
-        pokemonButton.addEventListener('click', showDetails(pokemon));
+        pokemonButton.addEventListener('click', ()=>{
+            showDetails(pokemon);
+        });
     }
 
     //validates that the added Pokemon is an object and has matching keys
@@ -68,7 +70,7 @@ pokemonRepository.add({
 //checks if typeof validation works (should not work)
 pokemonRepository.add(4);
 
-//another key and typeof validation check, (this one be added successfully)
+//another key and typeof validation check, (this one should be added successfully)
 pokemonRepository.add({
     name: 'Mr. Mime',
     height: 1.3,
@@ -82,7 +84,6 @@ pokemonRepository.getAll().forEach(pokemonRepository.addListItem);
 let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
 console.log(filteredPokemon);
 
-editedPokemonList += '</ul>';
 
 
 
