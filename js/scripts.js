@@ -1,12 +1,41 @@
 
 //Creates an IIFE
 let pokemonRepository = (function () {
-    let pokemonList = [
-    {name: 'Bulbasaur', height: 0.7, types: ['grass', 'poison']},
-    {name: 'Jigglypuff', height: 0.5, types: ['fairy', 'normal']},
-    {name: 'Seel', height: 1.1, types: ['water']},
-    {name: 'Squirtle', height: 0.5, types: ['water']}
-    ];
+    let pokemonList = [];
+    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+
+    //loads list of pokemon from the API
+    function loadList() {
+        return fetch(apiUrl).then(function (response) {
+            return response.json();
+        }).then(function (json) {
+            //adds each pokemon from the API to pokemonList
+            json.results.forEach(function (item) {
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url
+                };
+                add(pokemon);
+            });
+        }).catch(function (e) {
+            console.error(e);
+        })
+    }
+
+    //loads details from the API
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+            return response.json();
+        }).then(function (details) {
+            //adds details to each item (pokemon)
+            item.imageUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types;
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
 
     function getAll() {
         return pokemonList;
@@ -57,10 +86,13 @@ let pokemonRepository = (function () {
         add: add,
         findPokemonName: findPokemonName,
         addListItem: addListItem,
-        showDetails: showDetails
+        showDetails: showDetails,
+        loadList: loadList,
+        loadDetails: loadDetails
     };
 })();
 
+/*
 //checks if key validation works (should not work)
 pokemonRepository.add({
     name: 'hello',
@@ -83,6 +115,19 @@ pokemonRepository.getAll().forEach(pokemonRepository.addListItem);
 //Tests filter() function
 let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
 console.log(filteredPokemon);
+*/
+
+pokemonRepository.loadList().then(function () {
+    pokemonRepository.getAll().forEach(function (pokemon) {
+        pokemonRepository.addListItem(pokemon);
+    });
+});
+
+function showDetails(pokemon) {
+    loadDetails(pokemon).then(function () {
+        console.log(pokemon);
+    });
+};
 
 
 
