@@ -23,15 +23,15 @@ let pokemonRepository = (function () {
     }
 
     //loads details from the API
-    function loadDetails(item) {
-        let url = item.detailsUrl;
+    function loadDetails(pokemon) {
+        let url = pokemon.detailsUrl;
         return fetch(url).then(function (response) {
             return response.json();
         }).then(function (details) {
             //adds details to each item (pokemon)
-            item.imageUrl = details.sprites.front_default;
-            item.height = details.height;
-            item.types = details.types;
+            pokemon.imageUrl = details.sprites.front_default;
+            pokemon.height = details.height;
+            pokemon.types = details.types;
         }).catch(function (e) {
             console.error(e);
         });
@@ -43,7 +43,9 @@ let pokemonRepository = (function () {
 
     //shows details of selected pokemon in console
     function showDetails(pokemon) {
-        console.log(pokemon);
+        pokemonRepository.loadDetails(pokemon).then(function () {
+            console.log(pokemon);
+        });
     }
 
     //each added pokemon is added as a list item with a button
@@ -63,8 +65,9 @@ let pokemonRepository = (function () {
 
     //validates that the added Pokemon is an object and has matching keys
     function add(pokemon) {
+        let neededKeys=['name', 'detailsUrl'];
         if (typeof pokemon === 'object') {
-            if (Object.keys(pokemonList[0]).every(key => key in pokemon)) {
+            if (neededKeys.every(key => key in pokemon)) {
             pokemonList.push(pokemon);
             }
             else {
@@ -123,11 +126,7 @@ pokemonRepository.loadList().then(function () {
     });
 });
 
-function showDetails(pokemon) {
-    loadDetails(pokemon).then(function () {
-        console.log(pokemon);
-    });
-};
+
 
 
 
