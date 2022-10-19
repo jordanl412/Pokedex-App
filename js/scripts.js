@@ -17,11 +17,11 @@ let pokemonRepository = (function () {
 
     //loads list of pokemon from the API
     function loadList() {
-        showLoadingMessage;
+        showLoadingMessage();
         return fetch(apiUrl).then(function (response) {
             return response.json();
         }).then(function (json) {
-            hideLoadingMessage;
+            hideLoadingMessage();
             //adds each pokemon from the API to pokemonList
             json.results.forEach(function (item) {
                 let pokemon = {
@@ -31,7 +31,7 @@ let pokemonRepository = (function () {
                 add(pokemon);
             });
         }).catch(function (e) {
-            hideLoadingMessage;
+            hideLoadingMessage();
             console.error(e);
         })
     }
