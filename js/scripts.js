@@ -3,12 +3,25 @@
 let pokemonRepository = (function () {
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+    let loadingMessage = document.querySelector('.loading-message');
+
+    function showLoadingMessage() {
+        loadingMessage.classList.add('visible');
+        console.log('Loading...');
+    }
+
+    function hideLoadingMessage() {
+        loadingMessage.classList.remove('visible');
+        console.log('Done loading.');
+    }
 
     //loads list of pokemon from the API
     function loadList() {
+        showLoadingMessage;
         return fetch(apiUrl).then(function (response) {
             return response.json();
         }).then(function (json) {
+            hideLoadingMessage;
             //adds each pokemon from the API to pokemonList
             json.results.forEach(function (item) {
                 let pokemon = {
@@ -18,6 +31,7 @@ let pokemonRepository = (function () {
                 add(pokemon);
             });
         }).catch(function (e) {
+            hideLoadingMessage;
             console.error(e);
         })
     }
@@ -91,7 +105,9 @@ let pokemonRepository = (function () {
         addListItem: addListItem,
         showDetails: showDetails,
         loadList: loadList,
-        loadDetails: loadDetails
+        loadDetails: loadDetails,
+        showLoadingMessage: showLoadingMessage,
+        hideLoadingMessage: hideLoadingMessage
     };
 })();
 
@@ -120,12 +136,12 @@ let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
 console.log(filteredPokemon);
 */
 
+
 pokemonRepository.loadList().then(function () {
     pokemonRepository.getAll().forEach(function (pokemon) {
         pokemonRepository.addListItem(pokemon);
     });
 });
-
 
 
 
