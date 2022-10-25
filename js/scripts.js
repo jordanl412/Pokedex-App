@@ -4,7 +4,7 @@ let pokemonRepository = (function () {
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
     let loadingMessage = document.querySelector('.loading-message');
-    let modalContainer = document.querySelector('#modal-container')
+    //let modalContainer = document.querySelector('#modal-container')
 
 
     function showLoadingMessage() {
@@ -47,6 +47,7 @@ let pokemonRepository = (function () {
             //adds details to each item (pokemon)
             pokemon.imageUrl = details.sprites.front_default;
             pokemon.height = details.height;
+            pokemon.weight = details.weight;
             pokemon.types = details.types.map(type => type.type.name).join(', ');
         }).catch(function (e) {
             console.error(e);
@@ -60,7 +61,7 @@ let pokemonRepository = (function () {
     //shows details of selected pokemon in console
     function showDetails(pokemon) {
         pokemonRepository.loadDetails(pokemon).then(function () {
-            console.log(pokemon);
+            //console.log(pokemon);
             showPokemonModal(pokemon);
         });
     }
@@ -70,8 +71,12 @@ let pokemonRepository = (function () {
         let pokemonListContainer = document.querySelector('.pokemon-list');
         let listItem = document.createElement('li');
         let pokemonButton = document.createElement('button');
+        listItem.classList.add('group-list-item');
         pokemonButton.innerText = pokemon.name;
-        pokemonButton.classList.add('pokemon-button');
+        pokemonButton.classList.add('pokemon-button','btn','btn-primary', 
+        'group-list-item');
+        pokemonButton.setAttribute('data-toggle', 'modal');
+        pokemonButton.setAttribute('data-target', '#pokemon-modal');
         listItem.appendChild(pokemonButton);
         pokemonListContainer.appendChild(listItem);
         //calls showDetails function when button is clicked
@@ -88,7 +93,7 @@ let pokemonRepository = (function () {
             pokemonList.push(pokemon);
             }
             else {
-                console.log('keys must be "name", "height", "types"');
+                console.log('keys must be "name", "height", "weight", "types"');
             }
         }
         else {
@@ -103,57 +108,29 @@ let pokemonRepository = (function () {
 
     //modal code starts here
     function showPokemonModal(pokemon) {
-        modalContainer.innerHTML = '';
+        let modalBody = $('.modal-body');
+        let modalTitle = $('.modal-title');
+        let modalHeader = $('.modal-header');
 
-        //creates modal
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
+        //clears existing modal content (no carryover of other pokemon)
+        modalTitle.empty();
+        modalBody.empty();
 
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
-        closeButtonElement.addEventListener('click', hidePokemonModal);
+        //create elements for modal content
+        let nameElement = $('<h1>' + pokemon.name + '</h1>');
+        let imageElement = $('<img class="modal-img" style="width:50%">');
+        imageElement.attr('src', pokemon.imageUrl);
+        let heightElement = $('<p>' + 'height: ' + pokemon.height + '</p>');
+        let weightElement = $('<p>' + 'weight: '+ pokemon.weight + '</p>');
+        let typesElement = $('<p>' + 'types: ' + pokemon.types + '</p>');
 
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = pokemon.name;
-
-        let heightElement = document.createElement('p');
-        heightElement.innerText = 'Height: ' + pokemon.height;
-
-        let typesElement = document.createElement('p');
-        typesElement.innerText = 'Types: ' + pokemon.types;
-
-        let imageElement = document.createElement('img');
-        imageElement.src = pokemon.imageUrl;
-
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(titleElement);
-        modal.appendChild(heightElement);
-        modal.appendChild(typesElement);
-        modal.appendChild(imageElement);
-        modalContainer.appendChild(modal);
-
-        modalContainer.classList.add('is-visible');
-
-        modalContainer.addEventListener('click', (e) => {
-            let target = e.target;
-            if (target === modalContainer) {
-                hidePokemonModal();
-            }
-        });
-
-        function hidePokemonModal() {
-            modalContainer.classList.remove('is-visible');
-        }
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-                hidePokemonModal();
-            }
-        });
+        //append each element to the modal
+        modalTitle.append(nameElement);
+        modalBody.append(imageElement);
+        modalBody.append(heightElement);
+        modalBody.append(weightElement);
+        modalBody.append(typesElement);
     }
-
- 
 
     return {
         getAll: getAll,
@@ -164,37 +141,10 @@ let pokemonRepository = (function () {
         loadList: loadList,
         loadDetails: loadDetails,
         showLoadingMessage: showLoadingMessage,
-        hideLoadingMessage: hideLoadingMessage
+        hideLoadingMessage: hideLoadingMessage,
+        showPokemonModal: showPokemonModal
     };
 })();
-
-
-
-
-/*
-//checks if key validation works (should not work)
-pokemonRepository.add({
-    name: 'hello',
-    height: 4,
-});
-
-//checks if typeof validation works (should not work)
-pokemonRepository.add(4);
-
-//another key and typeof validation check, (this one should be added successfully)
-pokemonRepository.add({
-    name: 'Mr. Mime',
-    height: 1.3,
-    types: ['psychic', 'fairy']
-});
-
-//Adds list item (with button) for each pokemon in pokemonList
-pokemonRepository.getAll().forEach(pokemonRepository.addListItem);
-
-//Tests filter() function
-let filteredPokemon = pokemonRepository.findPokemonName('Bulbasaur');
-console.log(filteredPokemon);
-*/
 
 
 pokemonRepository.loadList().then(function () {
