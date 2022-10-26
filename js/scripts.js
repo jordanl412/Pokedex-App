@@ -102,8 +102,8 @@ let pokemonRepository = (function () {
     }
 
     //Bonus task to add filter(name) function
-    function findPokemonName(pokemonName) {
-        return pokemonList.filter(pokemon => pokemon.name === pokemonName);
+    function findPokemonName(input) {
+        return pokemonList.filter(pokemon => pokemon.name === input);
     }
 
     //modal code starts here
@@ -131,6 +131,21 @@ let pokemonRepository = (function () {
         modalBody.append(weightElement);
         modalBody.append(typesElement);
     }
+
+    let searchBar = '#searchBar';
+    $('#searchBar').keyup((e) => {
+        let pokemonButton = $('.pokemonButton');
+        let searchString = e.target.value.toLowerCase();
+        let filteredPokemonList = pokemonList.filter((pokemon) => {
+            return pokemon.name.toLowerCase().includes(searchString);
+        });
+        //remove all pokemon from list
+        $('.pokemonButton').remove();
+        //add back the searched pokemon
+        filteredPokemonList.forEach(function (pokemon) {
+            addListItem(pokemon);
+        });
+    });
 
     return {
         getAll: getAll,
