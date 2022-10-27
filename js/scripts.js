@@ -134,13 +134,13 @@ let pokemonRepository = (function () {
 
     let searchBar = '#searchBar';
     $('#searchBar').keyup((e) => {
-        let pokemonButton = $('.pokemonButton');
+        let pokemonButton = $('.pokemon-button');
         let searchString = e.target.value.toLowerCase();
         let filteredPokemonList = pokemonList.filter((pokemon) => {
             return pokemon.name.toLowerCase().includes(searchString);
         });
         //remove all pokemon from list
-        $('.pokemonButton').remove();
+        $('.pokemon-button').remove();
         //add back the searched pokemon
         filteredPokemonList.forEach(function (pokemon) {
             addListItem(pokemon);
