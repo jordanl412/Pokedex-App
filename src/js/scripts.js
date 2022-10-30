@@ -110,7 +110,7 @@ let pokemonRepository = (function () {
     function showPokemonModal(pokemon) {
         let modalBody = $('.modal-body');
         let modalTitle = $('.modal-title');
-        let modalHeader = $('.modal-header');
+        
 
         //clears existing modal content (no carryover of other pokemon)
         modalTitle.empty();
@@ -132,9 +132,8 @@ let pokemonRepository = (function () {
         modalBody.append(typesElement);
     }
 
-    let searchBar = '#searchBar';
+    
     $('#searchBar').keyup((e) => {
-        let pokemonButton = $('.pokemon-button');
         let searchString = e.target.value.toLowerCase();
         let filteredPokemonList = pokemonList.filter((pokemon) => {
             return pokemon.name.toLowerCase().includes(searchString);
